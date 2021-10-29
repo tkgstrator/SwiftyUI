@@ -21,6 +21,7 @@ class CameraManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVC
     private var metadataOutput: AVCaptureMetadataOutput
     private let queue: DispatchQueue = DispatchQueue(label: "Camera View", attributes: .concurrent)
     private let cameraMode: CameraMode
+    public var onResult: (String) -> Void = { _ in }
     
     public init(
         deviceType: AVCaptureDevice.DeviceType,
@@ -114,19 +115,19 @@ class CameraManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVC
             }
         }
     }
-    
+
     /// Metadataを見つけたときに呼ばれる
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         captureSession.stopRunning()
-        
+
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
-            guard let stringValue = readableObject.stringValue else { return }
+            guard let qrcode = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            print(stringValue)
+            NotificationCenter.default.post(name: .AVCaptureMetadataDetect, object: qrcode)
         }
     }
-    
+
     private func imageFromSampleBuffer(sampleBuffer: CMSampleBuffer) -> UIImage {
         let imageBuffer: CVImageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)!
         CVPixelBufferLockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: 0))
@@ -170,4 +171,8 @@ public enum CameraMode: Int, CaseIterable {
     case video
     case photo
     case scan
+}
+
+public extension Notification.Name {
+    static let AVCaptureMetadataDetect = Notification.Name("AVCaptureMetadataDetect")
 }

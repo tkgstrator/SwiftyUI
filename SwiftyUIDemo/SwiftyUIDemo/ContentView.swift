@@ -29,6 +29,11 @@ struct ContentView: View {
             })
                 .sheet(isPresented: $isPresented, onDismiss: {}, content: {
                     CameraView(cameraMode: .scan)
+                        .onReceive(NotificationCenter.default.publisher(for: .AVCaptureMetadataDetect)) { notification in
+                            if let qrcode = notification.object as? String {
+                                isPresented.toggle()
+                            }
+                        }
                 })
                 .navigationTitle("SwiftyUI Demo")
         })

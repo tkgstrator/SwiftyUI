@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 public struct SplitNavigationViewStyle: NavigationViewStyle {
+    @available(iOS 15, *)
     public func _columnBasedBody(configuration: _NavigationViewStyleConfiguration) -> EmptyView {
         EmptyView()
     }
