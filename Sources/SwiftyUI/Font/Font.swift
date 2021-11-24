@@ -262,6 +262,8 @@ public enum FontStyle: String, CaseIterable {
     case SnellRoundhand_Black = "SnellRoundhand-Black"
     case SnellRoundhand_Bold = "SnellRoundhand-Bold"
     case SnellRoundhand = "SnellRoundhand"
+    case Splatfont = "Splatfont"
+    case Splatfont2 = "Splatfont2"
     case Symbol = "Symbol"
     case TimesNewRomanPSMT = "TimesNewRomanPSMT"
     case TamilSangamMN = "TamilSangamMN"
