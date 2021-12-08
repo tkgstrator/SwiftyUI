@@ -11,7 +11,7 @@ import SwiftUI
 public struct Switch: View {
     @Binding var selected: Bool
     var segmentedLabels: Array<String>
-    var selectedItemColor: Color = .blue
+    var selectedItemColor: Color = .twitter
     
     public init(_ selected: Binding<Bool>, _ segmentedLabels: Array<String>) {
         self._selected = selected

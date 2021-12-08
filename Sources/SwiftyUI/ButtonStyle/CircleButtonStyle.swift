@@ -11,8 +11,8 @@ import SwiftUI
 public struct CircleButtonStyle: ButtonStyle {
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .foregroundColor(configuration.isPressed ? .white : .blue)
-            .overlay(Circle().stroke(Color.blue, lineWidth: 1))
-            .background(Circle().foregroundColor(configuration.isPressed ? .blue : .clear))
+            .foregroundColor(configuration.isPressed ? .white : .twitter)
+            .overlay(Circle().stroke(Color.twitter, lineWidth: 1))
+            .background(Circle().foregroundColor(configuration.isPressed ? .twitter : .clear))
     }
 }

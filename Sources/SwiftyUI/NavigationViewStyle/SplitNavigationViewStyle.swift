@@ -24,6 +24,7 @@ public struct SplitNavigationViewStyle: NavigationViewStyle {
                     guard let svc = self.parent?.children.first as? UISplitViewController else { return }
                     svc.preferredDisplayMode = .oneBesideSecondary
                     svc.preferredSplitBehavior = .tile
+                    svc.maximumPrimaryColumnWidth = 120
                     svc.presentsWithGesture = false
                 }
             }
