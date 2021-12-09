@@ -24,4 +24,5 @@ public extension Color {
     static let whitesmoke       = Color("#F5F5F5", bundle: .module)
     static let snow             = Color("#FAFAFA", bundle: .module)
     static let energyyellow     = Color("#FFDB45", bundle: .module)
+    static let twitter          = Color("#00ACEE", bundle: .module)
 }
