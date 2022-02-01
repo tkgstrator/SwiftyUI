@@ -9,6 +9,8 @@
 import SwiftUI
 
 public struct CircleButtonStyle: ButtonStyle {
+    public init() {}
+    
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundColor(configuration.isPressed ? .white : .twitter)

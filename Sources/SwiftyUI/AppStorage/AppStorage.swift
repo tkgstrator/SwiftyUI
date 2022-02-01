@@ -9,12 +9,16 @@ import Foundation
 
 extension Array: RawRepresentable where Element: Codable {
     public init?(rawValue: String) {
-        guard let data = rawValue.data(using: .utf8),
-              let result = try? JSONDecoder().decode([Element].self, from: data)
-        else {
+        guard let data = rawValue.data(using: .utf8) else {
             return nil
         }
-        self = result
+        do {
+            let result = try JSONDecoder().decode([Element].self, from: data)
+            self = result
+        } catch {
+            print(error)
+            return nil
+        }
     }
 
     public var rawValue: String {
@@ -26,3 +30,16 @@ extension Array: RawRepresentable where Element: Codable {
         return result
     }
 }
+
+extension Date: RawRepresentable {
+    private static let formatter = ISO8601DateFormatter()
+    
+    public var rawValue: String {
+        Date.formatter.string(from: self)
+    }
+    
+    public init?(rawValue: String) {
+        self = Date.formatter.date(from: rawValue) ?? Date()
+    }
+}
+

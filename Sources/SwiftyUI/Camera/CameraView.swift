@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct CameraView: View {
     @StateObject var capture: CameraManager
+    @Environment(\.presentationMode) var presentationMode
     @State var rotation: Double = 0.0
 
     public init(cameraMode: CameraMode) {
@@ -20,6 +21,8 @@ public struct CameraView: View {
     public var body: some View {
         GeometryReader { geometry in
             CameraPreview(previewFrame: CGRect(x: 0, y: 0, width: geometry.size.width, height: geometry.size.height), capture: capture)
+                .onAppear(perform: capture.setupSession)
+                .onDisappear(perform: capture.endSession)
                 .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification), perform: { value in
                     if let orientation: UIInterfaceOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation {
                         withAnimation(nil) {
@@ -29,7 +32,8 @@ public struct CameraView: View {
                 })
                 .rotationEffect(.degrees(rotation))
         }
-        .onAppear(perform: capture.setupSession)
-        .onDisappear(perform: capture.endSession)
+        .onReceive(NotificationCenter.default.publisher(for: .AVCaptureMetadataDetect)) { _ in
+            presentationMode.wrappedValue.dismiss()
+        }
     }
 }

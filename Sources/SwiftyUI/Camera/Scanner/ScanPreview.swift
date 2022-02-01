@@ -1,9 +1,10 @@
 //
-//  SwiftUIView.swift
-//  
+//  ScanPreview.swift
 //
-//  Created by devonly on 2021/10/29.
+//  SwiftyUI
+//  Created by devonly on 2021/08/27.
 //
+//  Magi Corporation, All rights, reserved.
 
 import SwiftUI
 import AVFoundation

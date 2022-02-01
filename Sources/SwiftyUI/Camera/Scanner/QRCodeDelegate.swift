@@ -1,9 +1,10 @@
 //
-//  File.swift
-//  
+//  QRCodeDelegate.swift
 //
-//  Created by devonly on 2021/10/29.
+//  SwiftyUI
+//  Created by devonly on 2021/08/27.
 //
+//  Magi Corporation, All rights, reserved.
 
 import Foundation
 import AVFoundation
@@ -16,7 +17,7 @@ class QRCodeDelegate: NSObject, AVCaptureMetadataOutputObjectsDelegate {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            onResult(stringValue)
+            self.onResult(stringValue)
         }
     }
 }

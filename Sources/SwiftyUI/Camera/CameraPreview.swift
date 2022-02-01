@@ -26,6 +26,6 @@ struct CameraPreview: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        uiView.updateFrame(frame: previewFrame)
+//        uiView.updateFrame(frame: previewFrame)
     }
 }

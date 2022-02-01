@@ -1,9 +1,10 @@
 //
 //  UIScanView.swift
-//  
 //
-//  Created by devonly on 2021/10/29.
+//  SwiftyUI
+//  Created by devonly on 2021/08/27.
 //
+//  Magi Corporation, All rights, reserved.
 
 import SwiftUI
 import AVFoundation
@@ -75,7 +76,7 @@ public struct ScanView: UIViewRepresentable {
     }
     
     public func updateUIView(_ uiView: ScanPreview, context: UIViewRepresentableContext<ScanView>) {
-        uiView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        uiView.setContentHuggingPriority(.defaultLow, for: .vertical)
         uiView.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
 }
