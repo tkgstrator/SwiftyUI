@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftyUI
 
 struct DetentIdentifier: View {
-    @Binding var detentIdentifier: UISheetPresentationController.Detent.Identifier
+    @Binding var detentIdentifier: UISheetPresentationController.Detent.Identifier?
     @State var isPresented: Bool = false
     let detents: [UISheetPresentationController.Detent.Identifier?]  = [.medium, .large, .none]
     

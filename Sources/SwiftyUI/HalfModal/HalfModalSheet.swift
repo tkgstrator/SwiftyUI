@@ -20,6 +20,7 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
     let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
     let detents: DetentsIdentifier
     let prefersGrabberVisible: Bool
+    let onDismiss: () -> Void
 
     internal init(
         isPresented: Binding<Bool>,
@@ -32,6 +33,7 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
         detents: DetentsIdentifier,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool,
         prefersGrabberVisible: Bool,
+        onDismiss: @escaping () -> Void,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self._isPresented = isPresented
@@ -45,6 +47,7 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
         self.detents = detents
         self.prefersGrabberVisible = prefersGrabberVisible
+        self.onDismiss = onDismiss
     }
     
     func makeCoordinator() -> Coordinator {
@@ -92,18 +95,19 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
         }
     }
     
-    class Coordinator: NSObject, UIAdaptivePresentationControllerDelegate, UISheetPresentationControllerDelegate {
+    class Coordinator: NSObject, UISheetPresentationControllerDelegate {
         var parent: HalfModalSheet
         
         init(_ parent: HalfModalSheet) {
             self.parent = parent
         }
         
-        // 画面外タップでViewをとじたときに呼ばれる
+        // 画面外タップ/下にスワイプでViewをとじたときに実行される
         func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
             if parent.isPresented {
                 parent.isPresented = false
             }
+            parent.onDismiss()
         }
     }
     
@@ -113,6 +117,7 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
         let coordinator: HalfModalSheet<Content>.Coordinator
         var transitionStyle: ModalTransitionStyle
         var presentationStyle: ModalPresentationStyle
+        let hosting: UIHostingController<Content>
         
         init(coordinator: HalfModalSheet<Content>.Coordinator,
              transitionStyle: ModalTransitionStyle,
@@ -124,6 +129,7 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
             self.coordinator = coordinator
             self.transitionStyle = transitionStyle
             self.presentationStyle = presentationStyle
+            self.hosting = UIHostingController(rootView: content())
             super.init(nibName: nil, bundle: .main)
         }
         
@@ -131,7 +137,9 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
             fatalError("init(coder:) has not been implemented")
         }
         
+        // Environment(\.dismiss)を呼んだときに実行される
         override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+            // isPresentedが切り替わってなかったらFalseにする
             if coordinator.parent.isPresented {
                 coordinator.parent.isPresented.toggle()
             }
@@ -148,7 +156,7 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
             // ここまで
             hosting.modalTransitionStyle = UIModalTransitionStyle(rawValue: transitionStyle.rawValue)!
             hosting.modalPresentationStyle = UIModalPresentationStyle(rawValue: presentationStyle.rawValue)!
-            hosting.presentationController?.delegate = coordinator as UIAdaptivePresentationControllerDelegate
+            hosting.sheetPresentationController?.delegate = coordinator as UISheetPresentationControllerDelegate
             hosting.isModalInPresentation = isModalInPresentation
             // UISheetPresentationController
             hosting.sheetPresentationController?.detents = coordinator.parent.detents.value

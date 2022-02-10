@@ -10,7 +10,7 @@ import SwiftyUI
 
 struct HalfModalView: View {
     @State var isPresented: Bool = false
-    @State var detentIdentifier: UISheetPresentationController.Detent.Identifier = .medium
+    @State var detentIdentifier: UISheetPresentationController.Detent.Identifier? = .medium
     @State var prefersScrollingExpandsWhenScrolledToEdge: Bool = false
     @State var prefersEdgeAttachedInCompactHeight: Bool = false
     @State var widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false

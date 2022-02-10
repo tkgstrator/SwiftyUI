@@ -21,6 +21,7 @@ public extension View {
         detents: DetentsIdentifier = .medium,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         prefersGrabberVisible: Bool = true,
+        onDismiss: @escaping () -> Void = {},
         content: @escaping () -> Content
     ) -> some View {
         self.overlay(
@@ -35,6 +36,7 @@ public extension View {
                 detents: detents,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
                 prefersGrabberVisible: prefersGrabberVisible,
+                onDismiss: onDismiss,
                 content: content
             )
                 .frame(width: 0, height: 0)
