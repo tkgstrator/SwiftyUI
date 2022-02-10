@@ -26,12 +26,13 @@ struct ModalView: View {
             }, label: {
                 Text("Modal")
             })
-            .present(
+            .sheet(
                 isPresented: $isPresented,
                 transitionStyle: transitionStyle,
                 presentationStyle: presentationStyle,
                 isModalInPresentation: isModalInPresentation,
-                contentSize: nil, content: {
+                contentSize: nil,
+                content: {
                     PresentView()
                 })
         })

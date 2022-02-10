@@ -10,7 +10,7 @@ import SwiftUI
 
 public extension View {
     /// モーダルをUIKit風に表示する
-    func present<Content: View>(
+    func sheet<Content: View>(
         isPresented: Binding<Bool>,
         transitionStyle: ModalTransitionStyle = .coverVertical,
         presentationStyle: ModalPresentationStyle = .pageSheet,
@@ -19,12 +19,14 @@ public extension View {
         content: @escaping () -> Content
     ) -> some View {
         self.overlay(
-            ModalPresent(isPresented: isPresented,
-                  transitionStyle: transitionStyle,
-                  presentationStyle: presentationStyle,
-                  isModalInPresentation: isModalInPresentation,
-                  contentSize: contentSize,
-                  content: content)
+            ModalSheet(
+                isPresented: isPresented,
+                transitionStyle: transitionStyle,
+                presentationStyle: presentationStyle,
+                isModalInPresentation: isModalInPresentation,
+                contentSize: contentSize,
+                content: content
+            )
                 .frame(width: 0, height: 0)
                 .buttonStyle(PlainButtonStyle())
         )

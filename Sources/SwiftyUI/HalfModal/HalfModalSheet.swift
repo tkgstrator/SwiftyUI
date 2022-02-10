@@ -11,73 +11,88 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
     
     let content: () -> Content
     @Binding var isPresented: Bool
-    @Environment(\.colorScheme) var colorScheme
-    let onDismiss: () -> Void
-    let detents: [UISheetPresentationController.Detent]
-    let largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier
+    let transitionStyle: ModalTransitionStyle
+    let presentationStyle: ModalPresentationStyle
+    let isModalInPresentation: Bool
+    let detentIdentifier: UISheetPresentationController.Detent.Identifier?
     let prefersScrollingExpandsWhenScrolledToEdge: Bool
     let prefersEdgeAttachedInCompactHeight: Bool
     let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
-    let isModalInPresentation: Bool
-    let modalPresentationStyle: ModalPresentationStyle
-    let modalTransitionStyle: ModalTransitionStyle
-    
-    init(
+    let detents: DetentsIdentifier
+    let prefersGrabberVisible: Bool
+
+    internal init(
         isPresented: Binding<Bool>,
-        detents: [UISheetPresentationController.Detent],
-        largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier,
+        transitionStyle: ModalTransitionStyle,
+        presentationStyle: ModalPresentationStyle,
+        isModalInPresentation: Bool,
+        detentIdentifier: UISheetPresentationController.Detent.Identifier?,
         prefersScrollingExpandsWhenScrolledToEdge: Bool,
         prefersEdgeAttachedInCompactHeight: Bool,
+        detents: DetentsIdentifier,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool,
-        isModalInPresentation: Bool,
-        modalPresentationStyle: ModalPresentationStyle,
-        modalTransitionStyle: ModalTransitionStyle,
-        onDismiss: @escaping () -> Void,
+        prefersGrabberVisible: Bool,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self._isPresented = isPresented
-        self.onDismiss = onDismiss
         self.content = content
-        self.detents = detents
-        self.largestUndimmedDetentIdentifier = largestUndimmedDetentIdentifier
-        self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
-        self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
-        self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
-        self.modalPresentationStyle = modalPresentationStyle
-        self.modalTransitionStyle = modalTransitionStyle
+        self.transitionStyle = transitionStyle
+        self.presentationStyle = presentationStyle
         self.isModalInPresentation = isModalInPresentation
+        self.detentIdentifier = detentIdentifier
+        self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
+        self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
+        self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
+        self.detents = detents
+        self.prefersGrabberVisible = prefersGrabberVisible
     }
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
     
-    func makeUIViewController(context: Context) -> CustomHostingController<Content> {
-        return CustomHostingController(
+    func makeUIViewController(context: Context) -> ViewController<Content> {
+        return ViewController(
             coordinator: context.coordinator,
-            preferredColorScheme: colorScheme == .dark ? .dark : .light,
+            transitionStyle: transitionStyle,
+            presentationStyle: presentationStyle,
+            isModalInPresentation: isModalInPresentation,
             content: content
         )
     }
     
+    // isPresentedの値が変化したときに呼ばれる
+    // デバイスの向きが変わった場合も呼ばれる
+    // - 補足説明
+    // isPresentedの値を変えると何故か20回呼ばれる
+    // 最初の1回目だけ正しくisPresentedにTrueが入っているが、
+    // 2回目以降はFalseが入っていてこれが様々なバグの原因
+    // isPresented=FalseになっているのでModalはViewが再レンダリングされたら消える状態
+    // デバイスを傾けるとやはりこのメソッドが呼ばれ、isPresented=Falseなのでdismiss()が実行される
+    // もしdismiss()で何も条件分岐をしない場合は2回目以降のdismiss()によって開いたViewがとじられてしまう
+    // - 解決案
+    // 1. updateUIViewControllerが1回しか呼ばれないようにする
+    // 2. Viewが開いた状態なのに何故かisPresented=Falseになる原因を特定し、ならないようにする
+    // 3. dismiss()の判定をより厳密化する
+    // - 備考
+    // context.coordinator.parent.isPresentedとisPresentedは常に同じ値が入っているよう
+    // isPresentedの値を書き換えても何故かすぐに戻ってしまう
     func updateUIViewController(
-        _ uiViewController: CustomHostingController<Content>,
+        _ uiViewController: ViewController<Content>,
         context: Context
     ) {
         context.coordinator.parent = self
-
-        // Delegate
         uiViewController.parent?.presentationController?.delegate = context.coordinator
         
         switch isPresented {
-            case true:
-                uiViewController.present()
-            case false:
-                uiViewController.dismiss()
+        case true:
+            uiViewController.present()
+        case false:
+            uiViewController.dismiss()
         }
     }
     
-    final class Coordinator: NSObject, UISheetPresentationControllerDelegate {
+    class Coordinator: NSObject, UIAdaptivePresentationControllerDelegate, UISheetPresentationControllerDelegate {
         var parent: HalfModalSheet
         
         init(_ parent: HalfModalSheet) {
@@ -86,25 +101,29 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
         
         // 画面外タップでViewをとじたときに呼ばれる
         func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-            print("DISMISS")
             if parent.isPresented {
                 parent.isPresented = false
             }
         }
     }
     
-    final class CustomHostingController<Content: View>: UIViewController {
-        var content: Content
+    // This custom view controller
+    final class ViewController<Content: View>: UIViewController {
+        let content: Content
         let coordinator: HalfModalSheet<Content>.Coordinator
-        let hosting: UIHostingController<Content>
+        var transitionStyle: ModalTransitionStyle
+        var presentationStyle: ModalPresentationStyle
         
         init(coordinator: HalfModalSheet<Content>.Coordinator,
-             preferredColorScheme: UIUserInterfaceStyle,
+             transitionStyle: ModalTransitionStyle,
+             presentationStyle: ModalPresentationStyle,
+             isModalInPresentation: Bool,
              @ViewBuilder content: @escaping () -> Content
         ) {
             self.content = content()
             self.coordinator = coordinator
-            self.hosting = UIHostingController(rootView: content())
+            self.transitionStyle = transitionStyle
+            self.presentationStyle = presentationStyle
             super.init(nibName: nil, bundle: .main)
         }
         
@@ -112,12 +131,7 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
             fatalError("init(coder:) has not been implemented")
         }
         
-        override func viewDidDisappear(_ animated: Bool) {
-            print("DISAPPEAR")
-        }
-        
         override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-            print("OVERRIDE DISMISS")
             if coordinator.parent.isPresented {
                 coordinator.parent.isPresented.toggle()
             }
@@ -127,14 +141,22 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
         // 表示
         func present() {
             // 設定を反映
+            let hosting: UIHostingController = UIHostingController(rootView: content)
+            // UIHostingControllerでボタンが効かなくなるバグの修正
+            hosting.view.translatesAutoresizingMaskIntoConstraints = false
+            hosting.updateViewConstraints()
+            // ここまで
+            hosting.modalTransitionStyle = UIModalTransitionStyle(rawValue: transitionStyle.rawValue)!
+            hosting.modalPresentationStyle = UIModalPresentationStyle(rawValue: presentationStyle.rawValue)!
             hosting.presentationController?.delegate = coordinator as UIAdaptivePresentationControllerDelegate
-            hosting.sheetPresentationController?.detents = coordinator.parent.detents
-            hosting.sheetPresentationController?.widthFollowsPreferredContentSizeWhenEdgeAttached = coordinator.parent.widthFollowsPreferredContentSizeWhenEdgeAttached
-            hosting.sheetPresentationController?.prefersEdgeAttachedInCompactHeight = coordinator.parent.prefersEdgeAttachedInCompactHeight
+            hosting.isModalInPresentation = isModalInPresentation
+            // UISheetPresentationController
+            hosting.sheetPresentationController?.detents = coordinator.parent.detents.value
+            hosting.sheetPresentationController?.largestUndimmedDetentIdentifier = coordinator.parent.detentIdentifier
             hosting.sheetPresentationController?.prefersScrollingExpandsWhenScrolledToEdge = coordinator.parent.prefersScrollingExpandsWhenScrolledToEdge
-            hosting.modalTransitionStyle = UIModalTransitionStyle(rawValue: coordinator.parent.modalTransitionStyle.rawValue)!
-            hosting.modalPresentationStyle = UIModalPresentationStyle(rawValue: coordinator.parent.modalPresentationStyle.rawValue)!
-            hosting.isModalInPresentation = coordinator.parent.isModalInPresentation
+            hosting.sheetPresentationController?.prefersEdgeAttachedInCompactHeight = coordinator.parent.prefersEdgeAttachedInCompactHeight
+            hosting.sheetPresentationController?.widthFollowsPreferredContentSizeWhenEdgeAttached = coordinator.parent.widthFollowsPreferredContentSizeWhenEdgeAttached
+            hosting.sheetPresentationController?.prefersGrabberVisible = coordinator.parent.prefersGrabberVisible
             
             if let isBeingPresented = presentedViewController?.isBeingPresented {
             } else {
@@ -143,8 +165,8 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
             }
         }
         
+        // 表示されているViewがあるときだけとじる
         func dismiss() {
-            print("FUNC DISMISS")
             if let isBeingPresented = presentedViewController?.isBeingPresented, !isBeingPresented {
                 // ここのチェックをかけるとデバイスが傾いたときには消えないが、ボタンを押しても消えなくなる
                 if let _ = presentedViewController?.isBeingDismissed { return }

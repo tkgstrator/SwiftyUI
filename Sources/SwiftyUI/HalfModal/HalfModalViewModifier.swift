@@ -9,44 +9,45 @@ import Foundation
 import SwiftUI
 
 public extension View {
+    /// モーダルをUIKit風に表示する
     func halfsheet<Content: View>(
         isPresented: Binding<Bool>,
-        detents: DetentsIdentifier = .medium,
-        largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier,
+        transitionStyle: ModalTransitionStyle = .coverVertical,
+        presentationStyle: ModalPresentationStyle = .automatic,
+        isModalInPresentation: Bool = false,
+        detentIdentifier: UISheetPresentationController.Detent.Identifier? = .none,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = false,
         prefersEdgeAttachedInCompactHeight: Bool = false,
+        detents: DetentsIdentifier = .medium,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
-        isModalInPresentation: Bool = false,
-        modalPresentationStyle: ModalPresentationStyle = .automatic,
-        modalTransitionStyle: ModalTransitionStyle = .coverVertical,
-        onDismiss: @escaping () -> (),
-        @ViewBuilder content: @escaping () -> Content
+        prefersGrabberVisible: Bool = true,
+        content: @escaping () -> Content
     ) -> some View {
-        self
-            .background(
-                HalfModalSheet(
-                    isPresented: isPresented,
-                    detents: detents.rawValue,
-                    largestUndimmedDetentIdentifier: largestUndimmedDetentIdentifier,
-                    prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
-                    prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
-                    widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
-                    isModalInPresentation: isModalInPresentation,
-                    modalPresentationStyle: modalPresentationStyle,
-                    modalTransitionStyle: modalTransitionStyle,
-                    onDismiss: onDismiss,
-                    content: content
-                )
+        self.overlay(
+            HalfModalSheet(
+                isPresented: isPresented,
+                transitionStyle: transitionStyle,
+                presentationStyle: presentationStyle,
+                isModalInPresentation: isModalInPresentation,
+                detentIdentifier: detentIdentifier,
+                prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
+                prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
+                detents: detents,
+                widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
+                prefersGrabberVisible: prefersGrabberVisible,
+                content: content
             )
+                .frame(width: 0, height: 0)
+        )
     }
 }
 
-public enum DetentsIdentifier {
+public enum DetentsIdentifier: Int, CaseIterable {
     case medium
     case large
     case both
     
-    var rawValue: [UISheetPresentationController.Detent] {
+    var value: [UISheetPresentationController.Detent] {
         switch self {
         case .medium:
             return [.medium()]

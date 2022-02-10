@@ -23,7 +23,7 @@ struct TransitionStyle: View {
                     .foregroundColor(.secondary)
             })
         })
-            .halfsheet(isPresented: $isPresented, detents: .medium, largestUndimmedDetentIdentifier: .medium, onDismiss: {}, content: {
+            .halfsheet(isPresented: $isPresented, content: {
                 Picker(selection: $transitionStyle, content: {
                     ForEach(ModalTransitionStyle.allCases) { style in
                         Text(style.transitionName)

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View {
+struct ModalSheet<Content>: UIViewControllerRepresentable where Content: View {
     
     let content: () -> Content
     @Binding var isPresented: Bool
@@ -84,9 +84,9 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
     }
     
     class Coordinator: NSObject, UIAdaptivePresentationControllerDelegate {
-        var parent: ModalPresent
+        var parent: ModalSheet
         
-        init(_ parent: ModalPresent) {
+        init(_ parent: ModalSheet) {
             self.parent = parent
         }
         
@@ -101,12 +101,12 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
     // This custom view controller
     final class ViewController<Content: View>: UIViewController {
         let content: Content
-        let coordinator: ModalPresent<Content>.Coordinator
+        let coordinator: ModalSheet<Content>.Coordinator
         var transitionStyle: ModalTransitionStyle
         var presentationStyle: ModalPresentationStyle
-        let hosting: UIHostingController<Content>
+//        let hosting: UIHostingController<Content>
         
-        init(coordinator: ModalPresent<Content>.Coordinator,
+        init(coordinator: ModalSheet<Content>.Coordinator,
              transitionStyle: ModalTransitionStyle,
              presentationStyle: ModalPresentationStyle,
              isModalInPresentation: Bool,
@@ -117,7 +117,7 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
             self.coordinator = coordinator
             self.transitionStyle = transitionStyle
             self.presentationStyle = presentationStyle
-            self.hosting = UIHostingController(rootView: content())
+//            self.hosting = UIHostingController(rootView: content())
             super.init(nibName: nil, bundle: .main)
         }
         
@@ -135,7 +135,11 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
         // 表示
         func present(contentSize: CGSize?) {
             // 設定を反映
-            // Build UIHostingController
+            let hosting: UIHostingController = UIHostingController(rootView: content)
+            // UIHostingControllerでボタンが効かなくなるバグの修正
+            hosting.view.translatesAutoresizingMaskIntoConstraints = false
+            hosting.updateViewConstraints()
+            // ここまで
             hosting.modalTransitionStyle = UIModalTransitionStyle(rawValue: transitionStyle.rawValue)!
             if let contentSize = contentSize {
                 hosting.preferredContentSize = contentSize

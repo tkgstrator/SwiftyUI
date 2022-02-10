@@ -11,7 +11,7 @@ import SwiftyUI
 struct DetentIdentifier: View {
     @Binding var detentIdentifier: UISheetPresentationController.Detent.Identifier
     @State var isPresented: Bool = false
-    let detents: [UISheetPresentationController.Detent.Identifier]  = [.medium, .large]
+    let detents: [UISheetPresentationController.Detent.Identifier?]  = [.medium, .large, .none]
     
     var body: some View {
         Button(action: {
@@ -24,7 +24,7 @@ struct DetentIdentifier: View {
                     .foregroundColor(.secondary)
             })
         })
-            .halfsheet(isPresented: $isPresented, detents: .medium, largestUndimmedDetentIdentifier: .medium, onDismiss: {}, content: {
+            .halfsheet(isPresented: $isPresented, content: {
                 Picker(selection: $detentIdentifier, content: {
                     ForEach(detents) { style in
                         Text(style.detentName)
@@ -37,8 +37,8 @@ struct DetentIdentifier: View {
     }
 }
 
-extension UISheetPresentationController.Detent.Identifier: Identifiable {
-    public var id: String { rawValue }
+extension Optional: Identifiable where Wrapped == UISheetPresentationController.Detent.Identifier {
+    public var id: String? { self?.rawValue }
 }
 
 extension UISheetPresentationController.Detent.Identifier {
@@ -50,6 +50,24 @@ extension UISheetPresentationController.Detent.Identifier {
             return "Large"
         default:
             return "Default"
+        }
+    }
+}
+
+extension Optional where Wrapped == UISheetPresentationController.Detent.Identifier {
+    var detentName: String {
+        switch self {
+        case .some(let value):
+            switch value {
+            case .medium:
+                return "Medium"
+            case .large:
+                return "Large"
+            default:
+                return "Default"
+            }
+        case .none:
+            return "Disable"
         }
     }
 }

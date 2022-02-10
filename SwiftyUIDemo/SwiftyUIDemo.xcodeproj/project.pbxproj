@@ -21,6 +21,7 @@
 		107A2E1227B5527F002B8C4D /* PresentationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107A2E1127B5527F002B8C4D /* PresentationStyle.swift */; };
 		107A2E1427B55901002B8C4D /* PresentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107A2E1327B55901002B8C4D /* PresentView.swift */; };
 		107A2E1627B56934002B8C4D /* DetentIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107A2E1527B56934002B8C4D /* DetentIdentifier.swift */; };
+		10F0B83E27B5A31F002AF260 /* Detents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F0B83D27B5A31F002AF260 /* Detents.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		107A2E1127B5527F002B8C4D /* PresentationStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationStyle.swift; sourceTree = "<group>"; };
 		107A2E1327B55901002B8C4D /* PresentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentView.swift; sourceTree = "<group>"; };
 		107A2E1527B56934002B8C4D /* DetentIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetentIdentifier.swift; sourceTree = "<group>"; };
+		10F0B83D27B5A31F002AF260 /* Detents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detents.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 				107A2E1127B5527F002B8C4D /* PresentationStyle.swift */,
 				107A2E1327B55901002B8C4D /* PresentView.swift */,
 				107A2E1527B56934002B8C4D /* DetentIdentifier.swift */,
+				10F0B83D27B5A31F002AF260 /* Detents.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				107A2E1627B56934002B8C4D /* DetentIdentifier.swift in Sources */,
 				107A2E1427B55901002B8C4D /* PresentView.swift in Sources */,
 				1018FD832693EB5400044B51 /* ContentView.swift in Sources */,
+				10F0B83E27B5A31F002AF260 /* Detents.swift in Sources */,
 				107A2E0827B54EBE002B8C4D /* HalfModalView.swift in Sources */,
 				107A2E0C27B55090002B8C4D /* SheetView.swift in Sources */,
 				107A2E0A27B54FB1002B8C4D /* ModalView.swift in Sources */,

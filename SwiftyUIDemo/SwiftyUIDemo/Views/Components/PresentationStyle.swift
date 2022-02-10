@@ -12,7 +12,6 @@ struct PresentationStyle: View {
     @Binding var presentationStyle: ModalPresentationStyle
     @State var isPresented: Bool = false
     
-    
     var body: some View {
         Button(action: {
             isPresented.toggle()
@@ -24,7 +23,7 @@ struct PresentationStyle: View {
                     .foregroundColor(.secondary)
             })
         })
-            .halfsheet(isPresented: $isPresented, detents: .medium, largestUndimmedDetentIdentifier: .medium, onDismiss: {}, content: {
+            .halfsheet(isPresented: $isPresented, content: {
                 Picker(selection: $presentationStyle, content: {
                     ForEach(ModalPresentationStyle.allCases) { style in
                         Text(style.presentationName)

@@ -21,6 +21,7 @@ struct HalfModalView: View {
     
     var body: some View {
         Form(content: {
+            Detents(detents: $detents)
             DetentIdentifier(detentIdentifier: $detentIdentifier)
             PresentationStyle(presentationStyle: $presentationStyle)
             TransitionStyle(transitionStyle: $transitionStyle)
@@ -41,21 +42,20 @@ struct HalfModalView: View {
             }, label: {
                 Text("HalfModal")
             })
+                .halfsheet(
+                    isPresented: $isPresented,
+                    transitionStyle: transitionStyle,
+                    presentationStyle: presentationStyle,
+                    isModalInPresentation: isModalInPresentation,
+                    detentIdentifier: detentIdentifier,
+                    prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
+                    prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
+                    detents: detents,
+                    widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
+                    content: {
+                        PresentView()
+                    })
         })
-            .halfsheet(
-                isPresented: $isPresented,
-                detents: detents,
-                largestUndimmedDetentIdentifier: detentIdentifier,
-                prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
-                prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
-                widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
-                isModalInPresentation: isModalInPresentation,
-                modalPresentationStyle: presentationStyle,
-                modalTransitionStyle: transitionStyle,
-                onDismiss: {},
-                content: {
-                    PresentView()
-            })
     }
 }
 

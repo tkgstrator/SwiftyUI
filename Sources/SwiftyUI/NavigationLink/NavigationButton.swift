@@ -24,6 +24,5 @@ public struct NavigationButton<Destination: View, Label: View>: View {
             label()
                 .background(NavigationLink(destination: destination, isActive: $isPresented, label: { EmptyView() }))
         })
-            .buttonStyle(.plain)
     }
 }
