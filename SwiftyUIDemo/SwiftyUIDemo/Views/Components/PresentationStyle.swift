@@ -18,13 +18,13 @@ struct PresentationStyle: View {
             isPresented.toggle()
         }, label: {
             HStack(content: {
-                Text("PresentationrStyle")
+                Text("PresentationStyle")
                 Spacer()
                 Text(presentationStyle.presentationName)
                     .foregroundColor(.secondary)
             })
         })
-            .halfsheet(isPresented: $isPresented, onDismiss: {}, content: {
+            .halfsheet(isPresented: $isPresented, detents: .medium, largestUndimmedDetentIdentifier: .medium, onDismiss: {}, content: {
                 Picker(selection: $presentationStyle, content: {
                     ForEach(ModalPresentationStyle.allCases) { style in
                         Text(style.presentationName)

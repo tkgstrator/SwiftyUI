@@ -37,12 +37,14 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
     }
     
     func makeUIViewController(context: Context) -> ViewController<Content> {
-        return ViewController(coordinator: context.coordinator,
-                              transitionStyle: transitionStyle,
-                              presentationStyle: presentationStyle,
-                              isModalInPresentation: isModalInPresentation,
-                              contentSize: contentSize,
-                              content: content)
+        return ViewController(
+            coordinator: context.coordinator,
+            transitionStyle: transitionStyle,
+            presentationStyle: presentationStyle,
+            isModalInPresentation: isModalInPresentation,
+            contentSize: contentSize,
+            content: content
+        )
     }
     
     // isPresentedの値が変化したときに呼ばれる
@@ -61,7 +63,10 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
     // - 備考
     // context.coordinator.parent.isPresentedとisPresentedは常に同じ値が入っているよう
     // isPresentedの値を書き換えても何故かすぐに戻ってしまう
-    func updateUIViewController(_ uiViewController: ViewController<Content>, context: Context) {
+    func updateUIViewController(
+        _ uiViewController: ViewController<Content>,
+        context: Context
+    ) {
         // 設定を反映
         uiViewController.transitionStyle = transitionStyle
         uiViewController.presentationStyle = presentationStyle
@@ -114,7 +119,6 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
             self.presentationStyle = presentationStyle
             self.hosting = UIHostingController(rootView: content())
             super.init(nibName: nil, bundle: .main)
-            self.isModalInPresentation = isModalInPresentation
         }
         
         required init?(coder: NSCoder) {
@@ -122,13 +126,16 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
         }
         
         override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-            coordinator.parent.isPresented.toggle()
+            if coordinator.parent.isPresented {
+                coordinator.parent.isPresented.toggle()
+            }
             super.dismiss(animated: flag, completion: completion)
         }
         
+        // 表示
         func present(contentSize: CGSize?) {
+            // 設定を反映
             // Build UIHostingController
-            //            let hosting = UIHostingController(rootView: content)
             hosting.modalTransitionStyle = UIModalTransitionStyle(rawValue: transitionStyle.rawValue)!
             if let contentSize = contentSize {
                 hosting.preferredContentSize = contentSize
@@ -138,8 +145,6 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
             }
             hosting.presentationController?.delegate = coordinator as UIAdaptivePresentationControllerDelegate
             hosting.isModalInPresentation = isModalInPresentation
-            
-            //            print(coordinator.parent.isPresented, presentedViewController?.isPresenting, presentedViewController?.isBeingPresented, presentedViewController?.isBeingDismissed)
             
             if let isBeingPresented = presentedViewController?.isBeingPresented {
                 if let contentSize = contentSize, !isBeingPresented {

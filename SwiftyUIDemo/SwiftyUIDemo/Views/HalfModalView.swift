@@ -10,14 +10,51 @@ import SwiftyUI
 
 struct HalfModalView: View {
     @State var isPresented: Bool = false
+    @State var detentIdentifier: UISheetPresentationController.Detent.Identifier = .medium
+    @State var prefersScrollingExpandsWhenScrolledToEdge: Bool = false
+    @State var prefersEdgeAttachedInCompactHeight: Bool = false
+    @State var widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false
+    @State var isModalInPresentation: Bool = false
+    @State var transitionStyle: ModalTransitionStyle = .coverVertical
+    @State var presentationStyle: ModalPresentationStyle = .automatic
+    @State var detents: DetentsIdentifier = .medium
+    
     var body: some View {
-        Button(action: {
-            isPresented.toggle()
-        }, label: {
-            Text("HalfModal")
+        Form(content: {
+            DetentIdentifier(detentIdentifier: $detentIdentifier)
+            PresentationStyle(presentationStyle: $presentationStyle)
+            TransitionStyle(transitionStyle: $transitionStyle)
+            Toggle(isOn: $prefersScrollingExpandsWhenScrolledToEdge, label: {
+                Text("PrefersScrollingExpandsWhenScrolledToEdge")
+            })
+            Toggle(isOn: $prefersEdgeAttachedInCompactHeight, label: {
+                Text("PrefersEdgeAttachedInCompactHeight")
+            })
+            Toggle(isOn: $widthFollowsPreferredContentSizeWhenEdgeAttached, label: {
+                Text("WidthFollowsPreferredContentSizeWhenEdgeAttached")
+            })
+            Toggle(isOn: $isModalInPresentation, label: {
+                Text("IsModalInPresentation")
+            })
+            Button(action: {
+                isPresented.toggle()
+            }, label: {
+                Text("HalfModal")
+            })
         })
-            .halfsheet(isPresented: $isPresented, onDismiss: {}, content: {
-                Text("HalfModalView")
+            .halfsheet(
+                isPresented: $isPresented,
+                detents: detents,
+                largestUndimmedDetentIdentifier: detentIdentifier,
+                prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
+                prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
+                widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
+                isModalInPresentation: isModalInPresentation,
+                modalPresentationStyle: presentationStyle,
+                modalTransitionStyle: transitionStyle,
+                onDismiss: {},
+                content: {
+                    PresentView()
             })
     }
 }

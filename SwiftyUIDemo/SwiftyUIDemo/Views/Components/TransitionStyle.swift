@@ -12,7 +12,6 @@ struct TransitionStyle: View {
     @Binding var transitionStyle: ModalTransitionStyle
     @State var isPresented: Bool = false
     
-    
     var body: some View {
         Button(action: {
             isPresented.toggle()
@@ -24,7 +23,7 @@ struct TransitionStyle: View {
                     .foregroundColor(.secondary)
             })
         })
-            .halfsheet(isPresented: $isPresented, onDismiss: {}, content: {
+            .halfsheet(isPresented: $isPresented, detents: .medium, largestUndimmedDetentIdentifier: .medium, onDismiss: {}, content: {
                 Picker(selection: $transitionStyle, content: {
                     ForEach(ModalTransitionStyle.allCases) { style in
                         Text(style.transitionName)

@@ -12,7 +12,7 @@ struct ModalView: View {
     @State var isPresented: Bool = false
     @State var transitionStyle: ModalTransitionStyle = .crossDissolve
     @State var presentationStyle: ModalPresentationStyle = .automatic
-    @State var isModalInPresentation: Bool = false
+    @State var isModalInPresentation: Bool = true
     
     var body: some View {
         Form(content: {
