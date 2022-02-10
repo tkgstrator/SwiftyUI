@@ -1,20 +1,20 @@
 //
-//  SFSymbolView.swift
+//  SheetView.swift
 //  SwiftyUIDemo
 //
-//  Created by devonly on 2021/10/29.
+//  Created by devonly on 2022/02/10.
 //
 
 import SwiftUI
 
-struct SFSymbolView: View {
+struct SheetView: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
-struct SFSymbolView_Previews: PreviewProvider {
+struct SheetView_Previews: PreviewProvider {
     static var previews: some View {
-        SFSymbolView()
+        SheetView()
     }
 }

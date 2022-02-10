@@ -13,6 +13,12 @@ let package = Package(
         .library(
             name: "SwiftyUI",
             targets: ["SwiftyUI"]),
+        .library(
+            name: "SwiftyUICamera",
+            targets: ["SwiftyUICamera"]),
+        .library(
+            name: "SwiftyUIPhoto",
+            targets: ["SwiftyUIPhoto"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -24,6 +30,12 @@ let package = Package(
         .target(
             name: "SwiftyUI",
             dependencies: ["Introspect"]),
+        .target(
+            name: "SwiftyUICamera",
+            dependencies: []),
+        .target(
+            name: "SwiftyUIPhoto",
+            dependencies: []),
         .testTarget(
             name: "SwiftyUITests",
             dependencies: ["SwiftyUI"]),

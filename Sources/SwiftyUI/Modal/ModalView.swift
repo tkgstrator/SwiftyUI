@@ -62,9 +62,14 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
     // context.coordinator.parent.isPresentedとisPresentedは常に同じ値が入っているよう
     // isPresentedの値を書き換えても何故かすぐに戻ってしまう
     func updateUIViewController(_ uiViewController: ViewController<Content>, context: Context) {
+        // 設定を反映
+        uiViewController.transitionStyle = transitionStyle
+        uiViewController.presentationStyle = presentationStyle
+        uiViewController.isModalInPresentation = isModalInPresentation
+        
         context.coordinator.parent = self
         uiViewController.parent?.presentationController?.delegate = context.coordinator
-//        print("UpdateUIViewController: isPresented", isPresented)
+        
         switch isPresented {
         case true:
             uiViewController.present(contentSize: contentSize)
@@ -75,9 +80,9 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
     
     class Coordinator: NSObject, UIAdaptivePresentationControllerDelegate {
         var parent: ModalPresent
+        
         init(_ parent: ModalPresent) {
             self.parent = parent
-//            print("Coordinator: isPresented", parent.isPresented)
         }
         
         // 画面外タップでViewをとじたときに呼ばれる
@@ -92,8 +97,8 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
     final class ViewController<Content: View>: UIViewController {
         let content: Content
         let coordinator: ModalPresent<Content>.Coordinator
-        let transitionStyle: ModalTransitionStyle
-        let presentationStyle: ModalPresentationStyle
+        var transitionStyle: ModalTransitionStyle
+        var presentationStyle: ModalPresentationStyle
         let hosting: UIHostingController<Content>
         
         init(coordinator: ModalPresent<Content>.Coordinator,
@@ -114,6 +119,11 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
         
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
+        }
+        
+        override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+            coordinator.parent.isPresented.toggle()
+            super.dismiss(animated: flag, completion: completion)
         }
         
         func present(contentSize: CGSize?) {
@@ -140,7 +150,6 @@ struct ModalPresent<Content>: UIViewControllerRepresentable where Content: View 
             } else {
                 // 新規表示
                 present(hosting, animated: true, completion: nil)
-//                coordinator.parent.isPresented.toggle()
             }
         }
         

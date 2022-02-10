@@ -13,9 +13,13 @@
 		1018FD882693EB5800044B51 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1018FD872693EB5800044B51 /* Preview Assets.xcassets */; };
 		1018FD932693EB5800044B51 /* SwiftyUIDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1018FD922693EB5800044B51 /* SwiftyUIDemoTests.swift */; };
 		1018FD9E2693EB5800044B51 /* SwiftyUIDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1018FD9D2693EB5800044B51 /* SwiftyUIDemoUITests.swift */; };
-		107315FC2693EC4F0092D18E /* SwiftyUI in Frameworks */ = {isa = PBXBuildFile; productRef = 107315FB2693EC4F0092D18E /* SwiftyUI */; };
-		108636C6272B85960002B24B /* FontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108636C5272B85960002B24B /* FontView.swift */; };
-		108636C8272B87BC0002B24B /* SFSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108636C7272B87BC0002B24B /* SFSymbolView.swift */; };
+		107A2E0627B54E84002B8C4D /* SwiftyUI in Frameworks */ = {isa = PBXBuildFile; productRef = 107A2E0527B54E84002B8C4D /* SwiftyUI */; };
+		107A2E0827B54EBE002B8C4D /* HalfModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107A2E0727B54EBE002B8C4D /* HalfModalView.swift */; };
+		107A2E0A27B54FB1002B8C4D /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107A2E0927B54FB1002B8C4D /* ModalView.swift */; };
+		107A2E0C27B55090002B8C4D /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107A2E0B27B55090002B8C4D /* SheetView.swift */; };
+		107A2E1027B55115002B8C4D /* TransitionStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107A2E0F27B55115002B8C4D /* TransitionStyle.swift */; };
+		107A2E1227B5527F002B8C4D /* PresentationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107A2E1127B5527F002B8C4D /* PresentationStyle.swift */; };
+		107A2E1427B55901002B8C4D /* PresentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107A2E1327B55901002B8C4D /* PresentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,8 +53,12 @@
 		1018FD9D2693EB5800044B51 /* SwiftyUIDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyUIDemoUITests.swift; sourceTree = "<group>"; };
 		1018FD9F2693EB5800044B51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1018FDAE2693EC0500044B51 /* SwiftyUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftyUI; path = ..; sourceTree = "<group>"; };
-		108636C5272B85960002B24B /* FontView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontView.swift; sourceTree = "<group>"; };
-		108636C7272B87BC0002B24B /* SFSymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolView.swift; sourceTree = "<group>"; };
+		107A2E0727B54EBE002B8C4D /* HalfModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfModalView.swift; sourceTree = "<group>"; };
+		107A2E0927B54FB1002B8C4D /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
+		107A2E0B27B55090002B8C4D /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
+		107A2E0F27B55115002B8C4D /* TransitionStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionStyle.swift; sourceTree = "<group>"; };
+		107A2E1127B5527F002B8C4D /* PresentationStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationStyle.swift; sourceTree = "<group>"; };
+		107A2E1327B55901002B8C4D /* PresentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				107315FC2693EC4F0092D18E /* SwiftyUI in Frameworks */,
+				107A2E0627B54E84002B8C4D /* SwiftyUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,11 +155,23 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		107A2E0D27B550B1002B8C4D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				107A2E0F27B55115002B8C4D /* TransitionStyle.swift */,
+				107A2E1127B5527F002B8C4D /* PresentationStyle.swift */,
+				107A2E1327B55901002B8C4D /* PresentView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		108636C4272B85860002B24B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				108636C5272B85960002B24B /* FontView.swift */,
-				108636C7272B87BC0002B24B /* SFSymbolView.swift */,
+				107A2E0D27B550B1002B8C4D /* Components */,
+				107A2E0727B54EBE002B8C4D /* HalfModalView.swift */,
+				107A2E0927B54FB1002B8C4D /* ModalView.swift */,
+				107A2E0B27B55090002B8C4D /* SheetView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -173,7 +193,7 @@
 			);
 			name = SwiftyUIDemo;
 			packageProductDependencies = (
-				107315FB2693EC4F0092D18E /* SwiftyUI */,
+				107A2E0527B54E84002B8C4D /* SwiftyUI */,
 			);
 			productName = SwiftyUIDemo;
 			productReference = 1018FD7D2693EB5400044B51 /* SwiftyUIDemo.app */;
@@ -288,10 +308,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				107A2E1427B55901002B8C4D /* PresentView.swift in Sources */,
 				1018FD832693EB5400044B51 /* ContentView.swift in Sources */,
+				107A2E0827B54EBE002B8C4D /* HalfModalView.swift in Sources */,
+				107A2E0C27B55090002B8C4D /* SheetView.swift in Sources */,
+				107A2E0A27B54FB1002B8C4D /* ModalView.swift in Sources */,
+				107A2E1027B55115002B8C4D /* TransitionStyle.swift in Sources */,
+				107A2E1227B5527F002B8C4D /* PresentationStyle.swift in Sources */,
 				1018FD812693EB5400044B51 /* SwiftyUIDemoApp.swift in Sources */,
-				108636C6272B85960002B24B /* FontView.swift in Sources */,
-				108636C8272B87BC0002B24B /* SFSymbolView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,7 +402,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -433,7 +457,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -453,7 +477,7 @@
 				DEVELOPMENT_TEAM = D9HU6JZF2Q;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SwiftyUIDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -475,7 +499,7 @@
 				DEVELOPMENT_TEAM = D9HU6JZF2Q;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SwiftyUIDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -613,7 +637,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		107315FB2693EC4F0092D18E /* SwiftyUI */ = {
+		107A2E0527B54E84002B8C4D /* SwiftyUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftyUI;
 		};

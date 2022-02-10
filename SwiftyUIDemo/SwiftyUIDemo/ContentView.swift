@@ -14,17 +14,15 @@ struct ContentView: View {
     var body: some View {
         NavigationView(content: {
             Form(content: {
-                Section(header: Text("List"), content: {
-                    NavigationLink(destination: FontView(), label: {
-                        Text("Font Lists")
+                Section(content: {
+                    NavigationLink(destination: HalfModalView(), label: {
+                        Text("HalfModal Demo")
                     })
-                })
-                Section(header: Text("Camera"), content: {
-                    Button(action: {
-                        isPresented.toggle()
-                    }, label: {
-                        Text("Camera")
+                    NavigationLink(destination: ModalView(), label: {
+                        Text("Modal Demo")
                     })
+                }, header: {
+                    Text("Modal")
                 })
             })
                 .navigationTitle("SwiftyUI Demo")

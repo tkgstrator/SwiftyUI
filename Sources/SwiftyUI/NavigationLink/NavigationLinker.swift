@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Form, Listで表示したときにIndicatorが表示されない
 public struct NavigationLinker<Destination: View, Label: View>: View {
     let destination: Destination
     let label: () -> Label
