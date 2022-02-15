@@ -11,6 +11,7 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
     
     let content: () -> Content
     @Binding var isPresented: Bool
+    @Environment(\.colorScheme) var colorScheme
     let transitionStyle: ModalTransitionStyle
     let presentationStyle: ModalPresentationStyle
     let isModalInPresentation: Bool
@@ -60,6 +61,7 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
             transitionStyle: transitionStyle,
             presentationStyle: presentationStyle,
             isModalInPresentation: isModalInPresentation,
+            preferredColorScheme: colorScheme == .dark ? .dark : .light,
             content: content
         )
     }
@@ -117,18 +119,21 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
         let coordinator: HalfModalSheet<Content>.Coordinator
         var transitionStyle: ModalTransitionStyle
         var presentationStyle: ModalPresentationStyle
+        let preferredColorScheme: UIUserInterfaceStyle
         let hosting: UIHostingController<Content>
         
         init(coordinator: HalfModalSheet<Content>.Coordinator,
              transitionStyle: ModalTransitionStyle,
              presentationStyle: ModalPresentationStyle,
              isModalInPresentation: Bool,
+             preferredColorScheme: UIUserInterfaceStyle,
              @ViewBuilder content: @escaping () -> Content
         ) {
             self.content = content()
             self.coordinator = coordinator
             self.transitionStyle = transitionStyle
             self.presentationStyle = presentationStyle
+            self.preferredColorScheme = preferredColorScheme
             self.hosting = UIHostingController(rootView: content())
             super.init(nibName: nil, bundle: .main)
         }
@@ -158,6 +163,7 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
             hosting.modalPresentationStyle = UIModalPresentationStyle(rawValue: presentationStyle.rawValue)!
             hosting.sheetPresentationController?.delegate = coordinator as UISheetPresentationControllerDelegate
             hosting.isModalInPresentation = isModalInPresentation
+            hosting.overrideUserInterfaceStyle = preferredColorScheme
             // UISheetPresentationController
             hosting.sheetPresentationController?.detents = coordinator.parent.detents.value
             hosting.sheetPresentationController?.largestUndimmedDetentIdentifier = coordinator.parent.detentIdentifier
