@@ -15,8 +15,8 @@ struct HalfModalView: View {
     @State var prefersEdgeAttachedInCompactHeight: Bool = false
     @State var widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false
     @State var isModalInPresentation: Bool = false
-    @State var transitionStyle: ModalTransitionStyle = .coverVertical
-    @State var presentationStyle: ModalPresentationStyle = .automatic
+    @State var transitionStyle: UIModalTransitionStyle = .coverVertical
+    @State var presentationStyle: UIModalPresentationStyle = .automatic
     @State var detents: DetentsIdentifier = .medium
     
     var body: some View {
@@ -55,6 +55,7 @@ struct HalfModalView: View {
                     content: {
                         PresentView()
                     })
+            .navigationTitle("HalfModal View")
         })
     }
 }

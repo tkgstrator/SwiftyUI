@@ -22,7 +22,24 @@ struct ContentView: View {
                         Text("Modal Demo")
                     })
                 }, header: {
-                    Text("Modal")
+                    Text("SwiftyUI")
+                })
+                Section(content: {
+                    NavigationLink(destination: SheetView(), label: {
+                        Text("Sheet")
+                    })
+                    NavigationLink(destination: FullScreenView(), label: {
+                        Text("FullScreen")
+                    })
+                }, header: {
+                    Text("iOS")
+                })
+                Section(content: {
+                    NavigationLink(destination: NavigationLinkView(), label: {
+                        Text("PopToRootView")
+                    })
+                }, header: {
+                    Text("NavigationLink")
                 })
             })
                 .navigationTitle("SwiftyUI Demo")

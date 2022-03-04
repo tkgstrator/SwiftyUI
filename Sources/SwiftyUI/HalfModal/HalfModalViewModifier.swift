@@ -12,8 +12,8 @@ public extension View {
     /// モーダルをUIKit風に表示する
     func halfsheet<Content: View>(
         isPresented: Binding<Bool>,
-        transitionStyle: ModalTransitionStyle = .coverVertical,
-        presentationStyle: ModalPresentationStyle = .automatic,
+        transitionStyle: UIModalTransitionStyle = .coverVertical,
+        presentationStyle: UIModalPresentationStyle = .automatic,
         isModalInPresentation: Bool = false,
         detentIdentifier: UISheetPresentationController.Detent.Identifier? = .none,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = false,

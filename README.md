@@ -44,115 +44,34 @@ For more details, see [Adding Package Dependencies to Your App](https://develope
 
 ## ModalView
 
-```swift
-struct ContentView: View {
-    @State var isPresented: Bool = false
-    
-    var body: some View {
-        Button(action: { isPresented.toggle() }, label: { Text("Open") })
-            .present(isPresented: $isPresented, transitionStyle: .coverVertical, presentationStyle: .pageSheet)
-    }
-}
-```
+ModalView is a componentfor displaying another view in a style not provided by SwiftUI.
 
-### TransitionStyle 
 
-#### CoverVertical
+### ModalPresentationStyle
 
-![](https://raw.githubusercontent.com/tkgstrator/SwiftyUI/master/Docs/GIF/01.gif)
+| ModalPresentationStyle | SwiftUI         | SwiftyUI  | 
+| :--------------------: | :-------------: | :-------: | 
+| fullScreen             | fullScreenCover | Supported | 
+| pageSheet              | sheet           | Supported | 
+| formSheet              | No              | Supported | 
+| currentContext         | No              | Supported | 
+| overFullScreen         | No              | Supported | 
+| overCurrentContext     | No              | Supported | 
 
-#### FlipHorizontal
+### ModalTransitionStyle
 
-![](https://github.com/tkgstrator/SwiftyUI/raw/master/Docs/GIF/02.gif)
+| ModalTransitionStyle | SwiftUI   | SwiftyUI  | 
+| :------------------: | :-------: | :-------: | 
+| coverVertical        | Supported | Supported | 
+| crossDissolve        | No        | Supported | 
+| flipHorizontal       | No        | Supported | 
+| partialCurl          | No        | No        | 
 
-#### CrossDissolve
+## HalfModalView
 
-![](https://github.com/tkgstrator/SwiftyUI/raw/master/Docs/GIF/03.gif)
+## EnvironmentValues
 
-### PresentationStyle
-
-#### PageSheet
-
-![](https://github.com/tkgstrator/SwiftyUI/raw/master/Docs/PresentationStyle/01.png)
-
-#### FormSheet
-
-![](https://github.com/tkgstrator/SwiftyUI/raw/master/Docs/PresentationStyle/02.png) 
-
-#### FullScreen
-
-![](https://github.com/tkgstrator/SwiftyUI/raw/master/Docs/PresentationStyle/03.png)
-
-## onDidLoad/onWillAppear/onWillDisappear
+### PopToRootViewController
 
 ```swift
-Content
-.onDidLoad {
-    // viewDidLoad
-}
-.onAppear {
-    // viewDidAppear
-}
-.onWillAppear {
-    // viewWillAppear
-}
-.onDisappear {
-    // viewDidDisappear
-}
-.onWillDisappear {
-    // viewWillDisappear
-}
-```
 
-### Priority
-
-1. Initializer
-   - called on `init()`
-2. `onDidLoad`
-   - at the same time `viewDidLoad` for `ViewerController`
-3. `onWillAppear`
-   - at the same time `viewWillAppear` for `ViewerController`
-4. `onAppear`
-   - at the same time `viewDidAppear` for `ViewerController`
-
-> Reference
->
-> [【SwiftUI】viewWillAppear と viewWillDisappear に対応する](https://www.yururiwork.net/%E3%80%90swiftui%E3%80%91viewwillappear-%E3%81%A8-viewwilldisappear-%E3%81%AB%E5%AF%BE%E5%BF%9C%E3%81%99%E3%82%8B/)
->
-> [Is there a SwiftUI equivalent for viewWillDisappear(\_:) or detect when a view is about to be removed?](https://stackoverflow.com/questions/59745663/is-there-a-swiftui-equivalent-for-viewwilldisappear-or-detect-when-a-view-is)
-
-## SplitNavigationViewStyle
-
-`NavigationViewStyle` has a specific style named `DoubleColumnNavigationViewStyle` but does not effect for the portrait on iPad.
-
-```swift
-NavigationView {
-    Text("Primary")
-    Text("Secondary")
-}
-.navigationViewStyle(SplitNavigationViewStyle())
-```
-
-![](https://raw.githubusercontent.com/tkgstrator/SwiftyUI/master/Docs/splitnavigationview.png)
-
-> Reference
->
-> [カスタム NavigationViewStyle 例](https://qiita.com/tom-u/items/57c0aec0fcc88bc16435)
-
-## Known Issues
-
-- `SplitNavigationViewStyle` does not work on using with following custom methods called after the view controllers `.onDidLoad`, `.onWillAppear` and `.onWillDisappear`.
-
-```swift
-NavigationView {
-    Text("Primary")
-    Text("Secondary")
-}
-.navigationViewStyle(SplitNavigationViewStyle()) // Does not work
-.onWillAppear {
-}
-```
-
-- `ModalWindow` could not dismiss by pulldown gesture/tap outside of modal(crash)
-
-> [Cusom modal window on SwiftUI](https://stackoverflow.com/questions/68770436/cusom-modal-window-on-swiftui)

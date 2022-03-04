@@ -11,10 +11,19 @@ struct PresentView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        Button(action: {
-            dismiss()
-        }, label: {
-            Text("Dismiss")
+        Form(content: {
+            Section(content: {
+                DismissButton()
+                PopButton()
+                VisibleButton()
+            }, header: {
+                Text("Normal")
+            })
+            Section(content: {
+                Dummy()
+            }, header: {
+                Text("Embedded")
+            })
         })
     }
 }

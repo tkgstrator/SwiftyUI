@@ -51,13 +51,13 @@ public struct Switch: View {
         switch segmentIndex {
         case 0:
             return CapsureRectangle(style: .left)
-                .fill(selected ? selectedItemColor : .whitesmoke)
+                .fill(selected ? selectedItemColor : .white)
         case 1:
             return CapsureRectangle(style: .right)
-                .fill(!selected ? selectedItemColor : .whitesmoke)
+                .fill(!selected ? selectedItemColor : .white)
         default:
             return CapsureRectangle(style: .right)
-                .fill(selected ? selectedItemColor : .whitesmoke)
+                .fill(selected ? selectedItemColor : .white)
         }
     }
 }

@@ -294,6 +294,14 @@ extension View {
         self.font(.custom(systemName.rawValue, size: size))
     }
     
+    public func fontWithMonospaced(systemName: FontStyle, size: CGFloat) -> some View {
+        self.font(.custom(systemName.rawValue, size: size).monospaced())
+    }
+    
+    public func fontWithMonospacedDigit(systemName: FontStyle, size: CGFloat) -> some View {
+        self.font(.custom(systemName.rawValue, size: size).monospacedDigit())
+    }
+    
     public func font(systemName: FontStyle, size: CGFloat, foregroundColor: Color) -> some View {
         self.font(.custom(systemName.rawValue, size: size)).foregroundColor(foregroundColor)
     }

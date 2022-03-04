@@ -12,8 +12,8 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
     let content: () -> Content
     @Binding var isPresented: Bool
     @Environment(\.colorScheme) var colorScheme
-    let transitionStyle: ModalTransitionStyle
-    let presentationStyle: ModalPresentationStyle
+    let transitionStyle: UIModalTransitionStyle
+    let presentationStyle: UIModalPresentationStyle
     let isModalInPresentation: Bool
     let detentIdentifier: UISheetPresentationController.Detent.Identifier?
     let prefersScrollingExpandsWhenScrolledToEdge: Bool
@@ -25,8 +25,8 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
 
     internal init(
         isPresented: Binding<Bool>,
-        transitionStyle: ModalTransitionStyle,
-        presentationStyle: ModalPresentationStyle,
+        transitionStyle: UIModalTransitionStyle,
+        presentationStyle: UIModalPresentationStyle,
         isModalInPresentation: Bool,
         detentIdentifier: UISheetPresentationController.Detent.Identifier?,
         prefersScrollingExpandsWhenScrolledToEdge: Bool,
@@ -117,14 +117,14 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
     final class ViewController<Content: View>: UIViewController {
         let content: Content
         let coordinator: HalfModalSheet<Content>.Coordinator
-        var transitionStyle: ModalTransitionStyle
-        var presentationStyle: ModalPresentationStyle
+        var transitionStyle: UIModalTransitionStyle
+        var presentationStyle: UIModalPresentationStyle
         let preferredColorScheme: UIUserInterfaceStyle
         let hosting: UIHostingController<Content>
         
         init(coordinator: HalfModalSheet<Content>.Coordinator,
-             transitionStyle: ModalTransitionStyle,
-             presentationStyle: ModalPresentationStyle,
+             transitionStyle: UIModalTransitionStyle,
+             presentationStyle: UIModalPresentationStyle,
              isModalInPresentation: Bool,
              preferredColorScheme: UIUserInterfaceStyle,
              @ViewBuilder content: @escaping () -> Content
@@ -154,7 +154,7 @@ struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: Vie
         // 表示
         func present() {
             // 設定を反映
-            let hosting: UIHostingController = UIHostingController(rootView: content)
+//            let hosting: UIHostingController = UIHostingController(rootView: content)
             // UIHostingControllerでボタンが効かなくなるバグの修正
             hosting.view.translatesAutoresizingMaskIntoConstraints = false
             hosting.updateViewConstraints()

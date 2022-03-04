@@ -52,3 +52,11 @@ public struct TripleColumnNavigationViewStyle: NavigationViewStyle {
     public init() {
     }
 }
+
+@available(iOS 13.0, tvOS 13.0, watchOS 7.0, *)
+@available(macOS, unavailable)
+extension NavigationViewStyle where Self == TripleColumnNavigationViewStyle {
+
+    /// A navigation view style split by master view and detail view.
+    public static var triple: TripleColumnNavigationViewStyle { TripleColumnNavigationViewStyle() }
+}

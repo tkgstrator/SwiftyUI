@@ -10,19 +10,19 @@ import SwiftUI
 
 struct ModalSheet<Content>: UIViewControllerRepresentable where Content: View {
     
-    let content: () -> Content
+    let content: Content
     @Binding var isPresented: Bool
-    let transitionStyle: ModalTransitionStyle
-    let presentationStyle: ModalPresentationStyle
+    let transitionStyle: UIModalTransitionStyle
+    let presentationStyle: UIModalPresentationStyle
     let isModalInPresentation: Bool
     let contentSize: CGSize?
     
     init(isPresented: Binding<Bool>,
-         transitionStyle: ModalTransitionStyle = .flipHorizontal,
-         presentationStyle: ModalPresentationStyle = .pageSheet,
+         transitionStyle: UIModalTransitionStyle = .flipHorizontal,
+         presentationStyle: UIModalPresentationStyle = .pageSheet,
          isModalInPresentation: Bool = false,
          contentSize: CGSize?,
-         @ViewBuilder content: @escaping () -> Content
+         content: Content
     ) {
         self.content = content
         self.transitionStyle = transitionStyle
@@ -61,7 +61,7 @@ struct ModalSheet<Content>: UIViewControllerRepresentable where Content: View {
     // 2. Viewが開いた状態なのに何故かisPresented=Falseになる原因を特定し、ならないようにする
     // 3. dismiss()の判定をより厳密化する
     // - 備考
-    // context.coordinator.parent.isPresentedとisPresentedは常に同じ値が入っているよう
+    // context.coordinator.parent.isPresentedとisPresentedは常に同じ値が入っている
     // isPresentedの値を書き換えても何故かすぐに戻ってしまう
     func updateUIViewController(
         _ uiViewController: ViewController<Content>,
@@ -98,26 +98,36 @@ struct ModalSheet<Content>: UIViewControllerRepresentable where Content: View {
         }
     }
     
+    final class HostingController<Content: View>: UIHostingController<Content> {
+        init(content: Content) {
+            super.init(rootView: content)
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+    }
+    
     // This custom view controller
     final class ViewController<Content: View>: UIViewController {
-        let content: Content
+//        let content: Content
         let coordinator: ModalSheet<Content>.Coordinator
-        var transitionStyle: ModalTransitionStyle
-        var presentationStyle: ModalPresentationStyle
-//        let hosting: UIHostingController<Content>
+        var transitionStyle: UIModalTransitionStyle
+        var presentationStyle: UIModalPresentationStyle
+        let hosting: UIHostingController<Content>
         
         init(coordinator: ModalSheet<Content>.Coordinator,
-             transitionStyle: ModalTransitionStyle,
-             presentationStyle: ModalPresentationStyle,
+             transitionStyle: UIModalTransitionStyle,
+             presentationStyle: UIModalPresentationStyle,
              isModalInPresentation: Bool,
              contentSize: CGSize?,
-             @ViewBuilder content: @escaping () -> Content
+             content: Content
         ) {
-            self.content = content()
+//            self.content = content
             self.coordinator = coordinator
             self.transitionStyle = transitionStyle
             self.presentationStyle = presentationStyle
-//            self.hosting = UIHostingController(rootView: content())
+            self.hosting = UIHostingController(rootView: content)
             super.init(nibName: nil, bundle: .main)
         }
         
@@ -134,41 +144,33 @@ struct ModalSheet<Content>: UIViewControllerRepresentable where Content: View {
         
         // 表示
         func present(contentSize: CGSize?) {
-            // 設定を反映
-            let hosting: UIHostingController = UIHostingController(rootView: content)
+//            let hosting = UIHostingController(rootView: content)
             // UIHostingControllerでボタンが効かなくなるバグの修正
             hosting.view.translatesAutoresizingMaskIntoConstraints = false
             hosting.updateViewConstraints()
             // ここまで
-            hosting.modalTransitionStyle = UIModalTransitionStyle(rawValue: transitionStyle.rawValue)!
+            hosting.modalTransitionStyle = transitionStyle
             if let contentSize = contentSize {
                 hosting.preferredContentSize = contentSize
                 hosting.modalPresentationStyle = .formSheet
             } else {
-                hosting.modalPresentationStyle = UIModalPresentationStyle(rawValue: presentationStyle.rawValue)!
+                hosting.modalPresentationStyle = presentationStyle
             }
             hosting.presentationController?.delegate = coordinator as UIAdaptivePresentationControllerDelegate
             hosting.isModalInPresentation = isModalInPresentation
             
             if let isBeingPresented = presentedViewController?.isBeingPresented {
                 if let contentSize = contentSize, !isBeingPresented {
-                    // ビューのサイズをアップデート
                     presentedViewController?.preferredContentSize = contentSize
-//                    print("UPDATE VIEWSIZE", coordinator.parent.isPresented)
                 }
             } else {
-                // 新規表示
                 present(hosting, animated: true, completion: nil)
             }
         }
         
         // 表示されているViewがあるときだけとじる
         func dismiss() {
-            if let isBeingPresented = presentedViewController?.isBeingPresented, !isBeingPresented {
-                // ここのチェックをかけるとデバイスが傾いたときには消えないが、ボタンを押しても消えなくなる
-                if let _ = presentedViewController?.isBeingDismissed { return }
-                dismiss(animated: true, completion: nil)
-            }
+            dismiss(animated: true, completion: nil)
         }
     }
 }

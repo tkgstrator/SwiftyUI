@@ -21,7 +21,7 @@ public extension Color {
     static let gainsoro         = Color("#DDDDDD", bundle: .module)
     static let spltpan          = Color("#F1FAE6", bundle: .module)
     static let solitude         = Color("#F4F6FA", bundle: .module)
-    static let whitesmoke       = Color("#F5F5F5", bundle: .module)
+    static let whitesmoke       = Color("#E5E5E5", bundle: .module)
     static let snow             = Color("#FAFAFA", bundle: .module)
     static let energyyellow     = Color("#FFDB45", bundle: .module)
     static let twitter          = Color("#00ACEE", bundle: .module)

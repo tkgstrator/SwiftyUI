@@ -10,8 +10,8 @@ import SwiftyUI
 
 struct ModalView: View {
     @State var isPresented: Bool = false
-    @State var transitionStyle: ModalTransitionStyle = .crossDissolve
-    @State var presentationStyle: ModalPresentationStyle = .automatic
+    @State var transitionStyle: UIModalTransitionStyle = .crossDissolve
+    @State var presentationStyle: UIModalPresentationStyle = .automatic
     @State var isModalInPresentation: Bool = true
     
     var body: some View {
@@ -36,6 +36,7 @@ struct ModalView: View {
                     PresentView()
                 })
         })
+            .navigationTitle("Modal View")
     }
 }
 

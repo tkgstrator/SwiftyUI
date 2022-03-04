@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftyUI
 
 struct TransitionStyle: View {
-    @Binding var transitionStyle: ModalTransitionStyle
+    @Binding var transitionStyle: UIModalTransitionStyle
     @State var isPresented: Bool = false
     
     var body: some View {
@@ -25,7 +25,7 @@ struct TransitionStyle: View {
         })
             .halfsheet(isPresented: $isPresented, content: {
                 Picker(selection: $transitionStyle, content: {
-                    ForEach(ModalTransitionStyle.allCases) { style in
+                    ForEach(UIModalTransitionStyle.allCases) { style in
                         Text(style.transitionName)
                             .tag(style)
                     }
@@ -36,7 +36,7 @@ struct TransitionStyle: View {
     }
 }
 
-extension ModalTransitionStyle {
+extension UIModalTransitionStyle {
     var transitionName: String {
         switch self {
         case .coverVertical:
@@ -45,12 +45,22 @@ extension ModalTransitionStyle {
             return "Flip Horizontal"
         case .crossDissolve:
             return "Cross Dissolve"
+        case .partialCurl:
+            return "PartialCurl"
+        @unknown default:
+            return "Default"
         }
     }
 }
 
-extension ModalTransitionStyle: Identifiable {
+extension UIModalTransitionStyle: Identifiable {
     public var id: Int { rawValue }
+}
+
+extension UIModalTransitionStyle: CaseIterable {
+    public static var allCases: [UIModalTransitionStyle] {
+        [.coverVertical, .crossDissolve, .flipHorizontal, .partialCurl]
+    }
 }
 
 

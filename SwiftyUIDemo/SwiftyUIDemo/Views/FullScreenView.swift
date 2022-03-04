@@ -1,13 +1,13 @@
 //
-//  SheetView.swift
+//  FullScreenView.swift
 //  SwiftyUIDemo
 //
-//  Created by devonly on 2022/02/10.
+//  Created by devonly on 2022/03/04.
 //
 
 import SwiftUI
 
-struct SheetView: View {
+struct FullScreenView: View {
     @State var isPresented: Bool = false
     
     var body: some View {
@@ -17,16 +17,16 @@ struct SheetView: View {
             }, label: {
                 Text("Modal")
             })
-                .sheet(isPresented: $isPresented, content: {
+                .fullScreenCover(isPresented: $isPresented, onDismiss: {}, content: {
                     PresentView()
                 })
         })
-            .navigationTitle("Sheet View")
+            .navigationTitle("FullScreen View")
     }
 }
 
-struct SheetView_Previews: PreviewProvider {
+struct FullScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        SheetView()
+        FullScreenView()
     }
 }

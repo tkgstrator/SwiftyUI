@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftyUI
 
 struct PresentationStyle: View {
-    @Binding var presentationStyle: ModalPresentationStyle
+    @Binding var presentationStyle: UIModalPresentationStyle
     @State var isPresented: Bool = false
     
     var body: some View {
@@ -25,7 +25,7 @@ struct PresentationStyle: View {
         })
             .halfsheet(isPresented: $isPresented, content: {
                 Picker(selection: $presentationStyle, content: {
-                    ForEach(ModalPresentationStyle.allCases) { style in
+                    ForEach(UIModalPresentationStyle.allCases) { style in
                         Text(style.presentationName)
                             .tag(style)
                     }
@@ -36,7 +36,7 @@ struct PresentationStyle: View {
     }
 }
 
-extension ModalPresentationStyle {
+extension UIModalPresentationStyle {
     var presentationName: String {
         switch self {
         case .automatic:
@@ -47,12 +47,32 @@ extension ModalPresentationStyle {
             return "Page Sheet"
         case .formSheet:
             return "Form Sheet"
+        case .currentContext:
+            return "CurrentContext"
+        case .custom:
+            return "Custom"
+        case .overFullScreen:
+            return "OverFullScreen"
+        case .overCurrentContext:
+            return "OverCurrentContext"
+        case .popover:
+            return "Popover"
+        case .none:
+            return "None"
+        @unknown default:
+            return "Default"
         }
     }
 }
 
-extension ModalPresentationStyle: Identifiable {
+extension UIModalPresentationStyle: Identifiable {
     public var id: Int { rawValue }
+}
+
+extension UIModalPresentationStyle: CaseIterable {
+    public static var allCases: [UIModalPresentationStyle] {
+        [.automatic, .fullScreen, .pageSheet, .formSheet, .currentContext, .custom, .overFullScreen, .overCurrentContext, .popover, .none]
+    }
 }
 
 struct PresentationStyle_Previews: PreviewProvider {
