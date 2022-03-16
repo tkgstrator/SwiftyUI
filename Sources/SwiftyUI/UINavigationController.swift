@@ -26,7 +26,6 @@ extension UIApplication {
            let rootViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController
         {
             let visibleViewController = findVisibleViewController(viewController: rootViewController)
-            print(visibleViewController)
             visibleViewController.dismiss(animated: true, completion: nil)
         }
     }

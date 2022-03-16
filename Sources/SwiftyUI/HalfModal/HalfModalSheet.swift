@@ -1,10 +1,9 @@
 //
-//  SwiftUIView.swift
-//  
+//  HalfModalSheet.swift
+//
 //
 //  Created by devonly on 2022/01/29.
 //
-
 import SwiftUI
 
 struct HalfModalSheet<Content>: UIViewControllerRepresentable where Content: View {

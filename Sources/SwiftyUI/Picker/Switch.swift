@@ -11,7 +11,7 @@ import SwiftUI
 public struct Switch: View {
     @Binding var selected: Bool
     var segmentedLabels: Array<String>
-    var selectedItemColor: Color = .twitter
+    var selectedItemColor: Color = .blue
     
     public init(_ selected: Binding<Bool>, _ segmentedLabels: Array<String>) {
         self._selected = selected
@@ -35,7 +35,7 @@ public struct Switch: View {
                             .frame(width: 89, height: 38)
                     )
                     .lineLimit(1)
-                    .foregroundColor(selected == (segmentedLabels.firstIndex(of: label) == 0) ? .white : .envy)
+                    .foregroundColor(selected == (segmentedLabels.firstIndex(of: label) == 0) ? .white : .blue)
                     .onTapGesture {
                         withAnimation {
                             selected = segmentedLabels.firstIndex(of: label) == 0

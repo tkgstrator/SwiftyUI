@@ -10,20 +10,24 @@ import Foundation
 import SwiftUI
 
 public extension Color {
-    static let rightgreen       = Color("#6CAA01", bundle: .module)
-    static let envy             = Color("#8D918E", bundle: .module)
-    static let pigmentgreen     = Color("#058D39", bundle: .module)
-    static let citrus           = Color("#87C90A", bundle: .module)
-    static let yellowgreen      = Color("#92CE25", bundle: .module)
-    static let turtlegreen      = Color("#323B00", bundle: .module)
-    static let arsenic          = Color("#30404E", bundle: .module)
-    static let pinetree         = Color("#050900", bundle: .module)
-    static let gainsoro         = Color("#DDDDDD", bundle: .module)
-    static let spltpan          = Color("#F1FAE6", bundle: .module)
-    static let solitude         = Color("#F4F6FA", bundle: .module)
-    static let whitesmoke       = Color("#E5E5E5", bundle: .module)
-    static let snow             = Color("#FAFAFA", bundle: .module)
-    static let energyyellow     = Color("#FFDB45", bundle: .module)
-    static let twitter          = Color("#00ACEE", bundle: .module)
-    static let darkpurple       = Color("#191970", bundle: .module)
+    /// 一位
+    static let gold: Color          = Color(hex: "FFD700")
+    /// 二位
+    static let silver: Color        = Color(hex: "C0C0C0")
+    /// 三位
+    static let bronze: Color        = Color(hex: "CD7F32")
+    /// 四位
+    static let sandyBrown: Color    = Color(hex: "DEB887")
+    /// 五位
+    static let burlyWood: Color     = Color(hex: "FF5733")
+    /// 六位
+    static let royalBlue: Color     = Color(hex: "4169E1")
+    /// 七位
+    static let dodgerBlue: Color    = Color(hex: "1E90FF")
+    /// 八位
+    static let deepSkyBlue: Color   = Color(hex: "00BFFF")
+    
+    static var allCases: [Color] {
+        [.gold, .silver, .bronze, .deepSkyBlue, .dodgerBlue, ]
+    }
 }

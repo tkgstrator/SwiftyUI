@@ -24,8 +24,7 @@ public struct SplitNavigationViewStyle: NavigationViewStyle {
                     guard let svc = self.parent?.children.first as? UISplitViewController else { return }
                     svc.preferredDisplayMode = .oneBesideSecondary
                     svc.preferredSplitBehavior = .tile
-//                    svc.maximumPrimaryColumnWidth = 120
-                    svc.presentsWithGesture = false
+                    svc.presentsWithGesture = true
                 }
             }
             
@@ -38,21 +37,19 @@ public struct SplitNavigationViewStyle: NavigationViewStyle {
         }
         
         func body(content: Content) -> some View {
-            content.overlay(
-                ControllerView().frame(width: 0, height: 0)
-            )
+            content
+                .overlay(ControllerView().frame(width: 0, height: 0))
         }
     }
     
     public func _body(configuration: _NavigationViewStyleConfiguration) -> some View {
-        NavigationView {
+        NavigationView(content: {
             configuration.content
-        }
+        })
         .modifier(ControllerModifier())
     }
     
-    public init() {
-    }
+    public init() {}
 }
 
 @available(iOS 13.0, tvOS 13.0, watchOS 7.0, *)

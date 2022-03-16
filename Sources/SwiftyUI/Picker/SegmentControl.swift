@@ -12,7 +12,7 @@ import UIKit
 public struct SegmentControl: View {
     @Binding var selection: Int
     var items: [String]
-    var fillColor: Color = .twitter
+    var fillColor: Color = .blue
     
     public init(selection: Binding<Int>, items: [String]) {
         self._selection = selection

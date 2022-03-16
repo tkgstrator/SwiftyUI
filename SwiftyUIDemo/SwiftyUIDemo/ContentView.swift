@@ -44,6 +44,7 @@ struct ContentView: View {
             })
                 .navigationTitle("SwiftyUI Demo")
         })
+                .navigationViewStyle(.split)
     }
 }
 
