@@ -21,7 +21,7 @@ extension UIApplication {
     }
     
     /// Dismiss HostingView
-    internal func dismiss() {
+    public func dismiss() {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController
         {

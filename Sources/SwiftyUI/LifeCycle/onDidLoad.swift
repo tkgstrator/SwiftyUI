@@ -52,7 +52,7 @@ struct ViewDidLoadModifier: ViewModifier {
 
 public extension View {
     /// Run at the same time viewDidLoad()
-    func onDidLoad(_ perform: @escaping (() -> Void)) -> some View {
+    func onDidLoad(perform: @escaping (() -> Void)) -> some View {
         self.modifier(ViewDidLoadModifier(callback: perform))
     }
 }

@@ -54,7 +54,7 @@ struct ViewWillAppearModifier: ViewModifier {
 
 public extension View {
     /// Run at the same time viewWillAppear()
-    func onWillAppear(_ perform: @escaping (() -> Void)) -> some View {
+    func onWillAppear(perform: @escaping (() -> Void)) -> some View {
         self.modifier(ViewWillAppearModifier(callback: perform))
     }
 }

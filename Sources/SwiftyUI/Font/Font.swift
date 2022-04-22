@@ -257,6 +257,7 @@ public enum FontStyle: String, CaseIterable {
     case Rockwell_Italic = "Rockwell-Italic"
     case Rockwell_BoldItalic = "Rockwell-BoldItalic"
     case SavoyeLetPlain = "SavoyeLetPlain"
+    case ShareTechMono = "ShareTechMono-Regular"
     case SinhalaSangamMN_Bold = "SinhalaSangamMN-Bold"
     case SinhalaSangamMN = "SinhalaSangamMN"
     case SnellRoundhand_Black = "SnellRoundhand-Black"

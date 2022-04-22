@@ -14,7 +14,6 @@ public class DismissModalAction {
     
     private func dismiss() {
         UIApplication.shared.dismiss()
-        isPresented.wrappedValue.toggle()
     }
     
     public func callAsFunction() { dismiss() }
